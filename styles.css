@@ -1,0 +1,196 @@
+:root {
+  --ink: #1a1d21;
+  --ink-soft: #5b6168;
+  --paper: #fbfaf7;
+  --line: #e3e0d8;
+  --accent: #1f4e5f;
+  --accent-soft: #eef3f4;
+  --maxw: 880px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  color: var(--ink);
+  background: var(--paper);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+.wrap {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 0 28px;
+}
+
+/* Header */
+.site-header {
+  border-bottom: 1px solid var(--line);
+  position: sticky;
+  top: 0;
+  background: rgba(251, 250, 247, 0.92);
+  backdrop-filter: blur(8px);
+  z-index: 10;
+}
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+}
+.wordmark {
+  font-family: 'Fraunces', serif;
+  font-weight: 600;
+  font-size: 1.15rem;
+  letter-spacing: -0.01em;
+}
+.wordmark-llc {
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  color: var(--accent);
+  vertical-align: super;
+  margin-left: 4px;
+}
+.header-contact {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--ink);
+  text-decoration: none;
+  padding-bottom: 2px;
+  border-bottom: 1.5px solid var(--accent);
+}
+.header-contact:hover { color: var(--accent); }
+
+/* Hero */
+.hero {
+  padding: 96px 0 72px;
+  border-bottom: 1px solid var(--line);
+}
+.eyebrow {
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 22px;
+}
+.hero-title {
+  font-family: 'Fraunces', serif;
+  font-weight: 500;
+  font-size: clamp(1.9rem, 5vw, 3.1rem);
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+  max-width: 18ch;
+  margin-bottom: 26px;
+}
+.hero-sub {
+  font-size: 1.12rem;
+  color: var(--ink-soft);
+  max-width: 54ch;
+}
+
+/* Section labels */
+.section-label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin-bottom: 32px;
+}
+
+/* Services */
+.services { padding: 72px 0; border-bottom: 1px solid var(--line); }
+.service-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px 56px;
+}
+.service h3 {
+  font-family: 'Fraunces', serif;
+  font-weight: 500;
+  font-size: 1.32rem;
+  letter-spacing: -0.01em;
+  margin-bottom: 10px;
+}
+.service p {
+  color: var(--ink-soft);
+  font-size: 0.98rem;
+}
+
+/* Approach */
+.approach { padding: 72px 0; border-bottom: 1px solid var(--line); background: var(--accent-soft); }
+.approach-statement {
+  font-family: 'Fraunces', serif;
+  font-weight: 400;
+  font-size: clamp(1.3rem, 3vw, 1.7rem);
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+  max-width: 40ch;
+}
+
+/* Engagements */
+.engagements { padding: 72px 0; border-bottom: 1px solid var(--line); }
+.engagement-list {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px 18px;
+}
+.engagement-list li {
+  font-family: 'Fraunces', serif;
+  font-size: 1.18rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  padding: 8px 18px;
+  border: 1px solid var(--line);
+  border-radius: 2px;
+}
+
+/* Contact */
+.contact { padding: 72px 0; }
+.contact-line a {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(1.4rem, 4vw, 2rem);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 2px solid transparent;
+  transition: border-color 0.15s;
+}
+.contact-line a:hover { border-bottom-color: var(--accent); }
+
+/* Footer */
+.site-footer {
+  border-top: 1px solid var(--line);
+  padding: 28px 0;
+}
+.footer-inner {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.88rem;
+  color: var(--ink-soft);
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .hero { padding: 64px 0 52px; }
+  .service-grid { grid-template-columns: 1fr; gap: 36px; }
+  .footer-inner { flex-direction: column; gap: 6px; }
+}
+
+/* Accessibility */
+a:focus-visible, .header-contact:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  * { transition: none !important; }
+}
