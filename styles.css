@@ -203,3 +203,88 @@ a { text-decoration: none; color: inherit; }
   * { transition: none !important; }
   html { scroll-behavior: auto; }
 }
+
+/* ============================================================
+   HERO — warmer intro additions
+   ============================================================ */
+.hero-name-sub {
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--steel);
+  margin-bottom: 20px;
+}
+
+/* ============================================================
+   CENTERED SECTION HEADERS
+   ============================================================ */
+.section-eyebrow,
+.section-title {
+  text-align: center;
+}
+
+.expertise-section .section-title,
+.expertise-section .section-eyebrow,
+.portfolio-section .section-title,
+.portfolio-section .section-eyebrow,
+.timeline-section .tl-section-title,
+.timeline-section .section-eyebrow {
+  text-align: center;
+}
+
+.portfolio-intro {
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ============================================================
+   CENTERED CONTACT + FOOTER
+   ============================================================ */
+.contact-centered {
+  text-align: center;
+}
+
+.contact-centered .contact-content {
+  margin: 0 auto;
+  text-align: center;
+}
+
+.contact-centered .socials-strip {
+  justify-content: center;
+  display: inline-flex;
+  border: 1px solid rgba(26,58,92,0.12);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.contact-centered .social-link {
+  border: none;
+  border-right: 1px solid rgba(26,58,92,0.12);
+}
+
+.contact-centered .social-link:last-child {
+  border-right: none;
+}
+
+.site-footer {
+  text-align: center;
+}
+
+.client-logos {
+  justify-content: center;
+}
+
+.footer-bottom {
+  justify-content: center;
+  gap: 16px;
+}
+
+/* ============================================================
+   TIMELINE — 2026 node spacing
+   ============================================================ */
+.tracker-stops {
+  gap: 40px;
+}

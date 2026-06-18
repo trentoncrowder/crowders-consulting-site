@@ -29,10 +29,10 @@
       <img src="logo_final.png" alt="Crowder's Consulting LLC" class="header-logo">
     </a>
     <nav class="header-nav">
-      <a href="#" onclick="scrollTo('expertise');return false;">Expertise</a>
-      <a href="#" onclick="scrollTo('portfolio');return false;">Portfolio</a>
-      <a href="#" onclick="scrollTo('timeline');return false;">Timeline</a>
-      <a href="#" onclick="scrollTo('contact');return false;" class="nav-cta">Contact</a>
+      <a href="#" onclick="scrollToSection('expertise');return false;">Expertise</a>
+      <a href="#" onclick="scrollToSection('portfolio');return false;">Portfolio</a>
+      <a href="#" onclick="scrollToSection('timeline');return false;">Timeline</a>
+      <a href="#" onclick="scrollToSection('contact');return false;" class="nav-cta">Contact</a>
     </nav>
   </div>
 </header>
@@ -49,10 +49,11 @@
       </div>
       <div class="hero-content-col">
         <p class="eyebrow">Independent technical consulting &mdash; Florida, US</p>
-        <h1 class="hero-title">Senior technical BA, PM, and OT cybersecurity for enterprise operations.</h1>
-        <p class="hero-sub">Multi-year engagements with global enterprise clients spanning OT cybersecurity programs, systems migration, and enterprise reporting. Operating through Crowder's Consulting LLC since 2020.</p>
+        <h1 class="hero-title">Hi, I&rsquo;m Trenton.</h1>
+        <p class="hero-name-sub">Senior Technical Project Manager &amp; Business Analyst</p>
+        <p class="hero-sub">I partner with enterprise organizations to deliver complex technical programs — from OT cybersecurity deployments and IAM governance to systems migrations and enterprise reporting. I&rsquo;ve been doing this independently through Crowder&rsquo;s Consulting LLC since 2020, across clients including Norwegian Cruise Line Holdings, Carnival Corporation, and MSC Cruises.</p>
         <div class="hero-actions">
-          <a href="#" onclick="scrollTo('contact');return false;" class="btn-primary">Get in touch</a>
+          <a href="#" onclick="scrollToSection('contact');return false;" class="btn-primary">Get in touch</a>
           <a href="https://www.linkedin.com/in/trentoncrowder/" class="btn-secondary" target="_blank" rel="noopener">LinkedIn &rarr;</a>
         </div>
       </div>
@@ -287,8 +288,8 @@
           <h2 class="section-title tl-section-title">Professional timeline</h2>
         </div>
 
-        <div class="tl-stop" data-year="2025">
-          <span class="tl-tag">2025 &ndash; Present</span>
+        <div class="tl-stop" data-year="2026">
+          <span class="tl-tag">2026 &mdash; Present</span>
           <h3 class="tl-role">Technical Project Manager / Business Analyst</h3>
           <p class="tl-client">Norwegian Cruise Line Holdings</p>
           <p class="tl-desc">Returned to NCLH in a senior capacity as both subject matter expert and delivery lead. Built the eCruise support process from the ground up, driving incident resolution from near-zero to 334 closures year-to-date. Owns ETL and import template design for Fidelio-to-Otalio migration, developer performance visibility via ServiceNow-sourced dashboards, and ongoing SOW scope management with senior stakeholders.</p>
@@ -331,7 +332,8 @@
       <div class="timeline-tracker">
         <div class="tracker-spine"></div>
         <div class="tracker-stops">
-          <div class="tracker-stop active" data-target="2025"><div class="tracker-dot"></div><span class="tracker-label">2025</span></div>
+          <div class="tracker-stop active" data-target="2026"><div class="tracker-dot"></div><span class="tracker-label">2026</span></div>
+          <div class="tracker-stop" data-target="2025"><div class="tracker-dot"></div><span class="tracker-label">2025</span></div>
           <div class="tracker-stop" data-target="2023"><div class="tracker-dot"></div><span class="tracker-label">2023</span></div>
           <div class="tracker-stop" data-target="2021"><div class="tracker-dot"></div><span class="tracker-label">2021</span></div>
           <div class="tracker-stop" data-target="2020"><div class="tracker-dot"></div><span class="tracker-label">2020</span></div>
@@ -342,7 +344,7 @@
   </section>
 
   <!-- CONTACT -->
-  <section class="contact" id="contact">
+  <section class="contact contact-centered" id="contact">
     <div class="wrap contact-inner">
       <div class="contact-content">
         <p class="section-eyebrow">Get in touch</p>
@@ -385,7 +387,7 @@
 </footer>
 
 <script>
-  function scrollTo(id) {
+  function scrollToSection(id) {
     var el = document.getElementById(id);
     if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
     history.replaceState(null, '', window.location.pathname);
