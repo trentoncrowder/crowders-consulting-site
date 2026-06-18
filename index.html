@@ -419,18 +419,54 @@
     });
   });
 
+
+  // Timeline tracker height sync
+  function syncTrackerHeight() {
+    var content = document.querySelector('.timeline-content');
+    var tracker = document.querySelector('.timeline-tracker');
+    if (content && tracker) {
+      tracker.style.height = content.offsetHeight + 'px';
+    }
+  }
+  syncTrackerHeight();
+  window.addEventListener('resize', syncTrackerHeight);
+
   // Timeline tracker
   (function() {
     var stops = document.querySelectorAll('.tl-stop');
     var trackerStops = document.querySelectorAll('.tracker-stop');
+    var spine = document.querySelector('.tracker-spine');
+
+    function positionDots() {
+      if (!stops.length || !trackerStops.length) return;
+      var tracker = document.querySelector('.timeline-tracker');
+      if (!tracker) return;
+
+      var trackerRect = tracker.getBoundingClientRect();
+      var scrollY = window.scrollY || window.pageYOffset;
+
+      stops.forEach(function(stop, i) {
+        var stopRect = stop.getBoundingClientRect();
+        var stopAbsTop = stopRect.top + scrollY;
+        var trackerAbsTop = trackerRect.top + scrollY + 140;
+        var relPos = stopAbsTop - trackerAbsTop;
+
+        if (trackerStops[i]) {
+          trackerStops[i].style.marginTop = i === 0 ? '0' : '';
+        }
+      });
+    }
+
     function updateTracker() {
       var active = 0;
       stops.forEach(function(stop, i) {
-        if (stop.getBoundingClientRect().top <= window.innerHeight * 0.4) active = i;
+        if (stop.getBoundingClientRect().top <= window.innerHeight * 0.45) active = i;
       });
       trackerStops.forEach(function(ts, i) { ts.classList.toggle('active', i === active); });
     }
+
     window.addEventListener('scroll', updateTracker, { passive: true });
+    window.addEventListener('resize', positionDots);
     updateTracker();
   })();
 </script>
