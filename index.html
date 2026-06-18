@@ -13,6 +13,8 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://crowdersconsulting.com/og-image.jpg">
 <link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
 <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -27,10 +29,10 @@
       <img src="logo_final.png" alt="Crowder's Consulting LLC" class="header-logo">
     </a>
     <nav class="header-nav">
-      <a href="#expertise">Expertise</a>
-      <a href="#portfolio">Portfolio</a>
-      <a href="#timeline">Timeline</a>
-      <a href="#contact" class="nav-cta">Contact</a>
+      <a href="#" onclick="scrollTo('expertise');return false;">Expertise</a>
+      <a href="#" onclick="scrollTo('portfolio');return false;">Portfolio</a>
+      <a href="#" onclick="scrollTo('timeline');return false;">Timeline</a>
+      <a href="#" onclick="scrollTo('contact');return false;" class="nav-cta">Contact</a>
     </nav>
   </div>
 </header>
@@ -50,7 +52,7 @@
         <h1 class="hero-title">Senior technical BA, PM, and OT cybersecurity for enterprise operations.</h1>
         <p class="hero-sub">Multi-year engagements with global enterprise clients spanning OT cybersecurity programs, systems migration, and enterprise reporting. Operating through Crowder's Consulting LLC since 2020.</p>
         <div class="hero-actions">
-          <a href="#contact" class="btn-primary">Get in touch</a>
+          <a href="#" onclick="scrollTo('contact');return false;" class="btn-primary">Get in touch</a>
           <a href="https://www.linkedin.com/in/trentoncrowder/" class="btn-secondary" target="_blank" rel="noopener">LinkedIn &rarr;</a>
         </div>
       </div>
@@ -383,6 +385,12 @@
 </footer>
 
 <script>
+  function scrollTo(id) {
+    var el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    history.replaceState(null, '', window.location.pathname);
+  }
+
   // Portfolio accordion
   document.querySelectorAll('.portfolio-card').forEach(function(card) {
     card.querySelector('.pc-header').addEventListener('click', function() {
