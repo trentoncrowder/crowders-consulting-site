@@ -447,16 +447,14 @@
       var tHeight = tracker.offsetHeight;
       var vh = window.innerHeight;
 
-      // Float tracker: centered vertically in viewport while section is visible
-      // Clamp so it never goes above section top or below section bottom
-      var idealTop = (vh - tHeight) / 2;
-      var sTop = sRect.top;
-      var sBottom = sRect.bottom;
+      // Float tracker: ideal position is vertically centered in viewport
+      // Convert viewport center to position relative to section top
+      var scrollOffset = -sRect.top; // how far we've scrolled into the section
+      var idealTop = scrollOffset + (vh - tHeight) / 2;
 
-      var clampedTop = Math.max(
-        sTop + 20,
-        Math.min(idealTop, sBottom - tHeight - 20)
-      );
+      // Clamp: never above 20px from section top, never below section bottom
+      var sHeight = section.offsetHeight;
+      var clampedTop = Math.max(20, Math.min(idealTop, sHeight - tHeight - 20));
 
       tracker.style.top = clampedTop + 'px';
 
