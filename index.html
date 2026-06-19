@@ -329,9 +329,9 @@
         </div>
       </div>
 
-      <div class="timeline-tracker" id="timeline-tracker">
+      <div class="timeline-tracker">
+        <div class="tracker-spine"></div>
         <div class="tracker-stops">
-          <div class="tracker-spine"></div>
           <div class="tracker-stop active" data-target="2026"><div class="tracker-dot"></div><span class="tracker-label">2026</span></div>
           <div class="tracker-stop" data-target="2024"><div class="tracker-dot"></div><span class="tracker-label">2024</span></div>
           <div class="tracker-stop" data-target="2022"><div class="tracker-dot"></div><span class="tracker-label">2022</span></div>
@@ -419,58 +419,18 @@
   });
 
 
-  // Timeline tracker height sync
-  function syncTrackerHeight() {
-    var content = document.querySelector('.timeline-content');
-    var tracker = document.querySelector('.timeline-tracker');
-    if (content && tracker) {
-      tracker.style.height = content.offsetHeight + 'px';
-    }
-  }
-  syncTrackerHeight();
-  window.addEventListener('resize', syncTrackerHeight);
-
-  // Timeline tracker — fixed viewport float while section in view
+  // Timeline tracker
   (function() {
-    var contentStops = document.querySelectorAll('.tl-stop');
+    var stops = document.querySelectorAll('.tl-stop');
     var trackerStops = document.querySelectorAll('.tracker-stop');
-    var tracker = document.getElementById('timeline-tracker');
-    var section = document.getElementById('timeline');
-    var stopYears = [2026, 2023, 2021, 2020, 2018];
-    var evenYears = [2026, 2024, 2022, 2020, 2018];
-
     function updateTracker() {
-      if (!tracker || !section) return;
-
-      var sRect = section.getBoundingClientRect();
-      var vh = window.innerHeight;
-      var tHeight = tracker.offsetHeight;
-
-      // Show/hide based on section visibility
-      var inView = sRect.top < vh && sRect.bottom > 0;
-      tracker.style.opacity = inView ? '1' : '0';
-      tracker.style.pointerEvents = inView ? 'auto' : 'none';
-
-      // Center vertically in viewport, clamped to section bounds
-      var centerTop = (vh - tHeight) / 2;
-      var topClamped = Math.max(sRect.top + 16, Math.min(centerTop, sRect.bottom - tHeight - 16));
-      tracker.style.top = topClamped + 'px';
-
-      // Active year
-      var activeYear = stopYears[0];
-      contentStops.forEach(function(stop, i) {
-        if (stop.getBoundingClientRect().top <= vh * 0.4) activeYear = stopYears[i];
+      var active = 0;
+      stops.forEach(function(stop, i) {
+        if (stop.getBoundingClientRect().top <= window.innerHeight * 0.4) active = i;
       });
-      var nearest = evenYears.reduce(function(a, b) {
-        return Math.abs(b - activeYear) < Math.abs(a - activeYear) ? b : a;
-      });
-      trackerStops.forEach(function(ts) {
-        ts.classList.toggle('active', parseInt(ts.dataset.target) === nearest);
-      });
+      trackerStops.forEach(function(ts, i) { ts.classList.toggle('active', i === active); });
     }
-
     window.addEventListener('scroll', updateTracker, { passive: true });
-    window.addEventListener('resize', updateTracker);
     updateTracker();
   })();
 </script>

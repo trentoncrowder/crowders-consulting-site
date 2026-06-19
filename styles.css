@@ -129,7 +129,7 @@ a { text-decoration: none; color: inherit; }
    TIMELINE
    ============================================================ */
 .timeline-section { background: var(--navy-deep); padding: 64px 0; }
-.timeline-outer { max-width: var(--wrap); margin: 0 auto; padding: 0 32px; }
+.timeline-outer { max-width: var(--wrap); margin: 0 auto; padding: 0 32px; display: grid; grid-template-columns: 1fr 120px; gap: 0 48px; align-items: start; }
 .timeline-header { margin-bottom: 48px; }
 .tl-section-title { color: var(--off-white) !important; }
 .tl-stop { padding: 40px 0; border-bottom: 1px solid rgba(138,155,174,0.15); }
@@ -140,7 +140,7 @@ a { text-decoration: none; color: inherit; }
 .tl-desc { font-size: 0.9rem; font-weight: 300; line-height: 1.8; color: rgba(138,155,174,0.9); max-width: 680px; margin-bottom: 18px; }
 .tl-tags { list-style: none; display: flex; flex-wrap: wrap; gap: 6px; }
 .tl-tags li { font-size: 0.72rem; letter-spacing: 0.06em; color: var(--steel); background: rgba(138,155,174,0.1); padding: 4px 10px; border-radius: 2px; }
-.timeline-tracker { position: fixed; right: calc((100vw - min(1160px, 100vw)) / 2 + 8px); top: 50%; display: flex; flex-direction: column; align-items: center; transition: top 0.1s linear, opacity 0.2s; opacity: 0; z-index: 90; }
+.timeline-tracker { position: sticky; top: 120px; display: flex; flex-direction: column; align-items: center; padding-top: 140px; }
 .tracker-spine { position: absolute; top: 5px; bottom: 5px; left: 50%; transform: translateX(-50%); width: 1px; background: rgba(138,155,174,0.2); pointer-events: none; }
 .tracker-stops { display: flex; flex-direction: column; gap: 22px; position: relative; z-index: 1; }
 .tracker-stop { display: flex; flex-direction: column; align-items: center; gap: 6px; }
@@ -186,8 +186,8 @@ a { text-decoration: none; color: inherit; }
   .hero-actions { justify-content: center; }
   .photo-frame::before { display: none; }
   .portfolio-grid { grid-template-columns: 1fr; }
-  .timeline-outer { grid-template-columns: 1fr; }
-  .timeline-tracker { display: none; }
+  .timeline-outer { max-width: var(--wrap); margin: 0 auto; padding: 0 32px; display: grid; grid-template-columns: 1fr 120px; gap: 0 48px; align-items: start; }
+  .timeline-tracker { position: sticky; top: 120px; display: flex; flex-direction: column; align-items: center; padding-top: 140px; }
   .header-nav a:not(.nav-cta) { display: none; }
   .socials-strip { flex-direction: column; }
 }
@@ -285,6 +285,4 @@ a { text-decoration: none; color: inherit; }
 /* ============================================================
    TIMELINE — 2026 node spacing
    ============================================================ */
-.tracker-stops {
-  /* gap controlled by justify-content: space-between */
-}
+.tracker-stops { display: flex; flex-direction: column; gap: 22px; position: relative; z-index: 1; }
