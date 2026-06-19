@@ -330,12 +330,16 @@
       </div>
 
       <div class="timeline-tracker">
-        <div class="tracker-spine"></div>
         <div class="tracker-stops">
+          <div class="tracker-spine"></div>
           <div class="tracker-stop active" data-target="2026"><div class="tracker-dot"></div><span class="tracker-label">2026</span></div>
+          <div class="tracker-stop" data-target="2025"><div class="tracker-dot"></div><span class="tracker-label">2025</span></div>
+          <div class="tracker-stop" data-target="2024"><div class="tracker-dot"></div><span class="tracker-label">2024</span></div>
           <div class="tracker-stop" data-target="2023"><div class="tracker-dot"></div><span class="tracker-label">2023</span></div>
+          <div class="tracker-stop" data-target="2022"><div class="tracker-dot"></div><span class="tracker-label">2022</span></div>
           <div class="tracker-stop" data-target="2021"><div class="tracker-dot"></div><span class="tracker-label">2021</span></div>
           <div class="tracker-stop" data-target="2020"><div class="tracker-dot"></div><span class="tracker-label">2020</span></div>
+          <div class="tracker-stop" data-target="2019"><div class="tracker-dot"></div><span class="tracker-label">2019</span></div>
           <div class="tracker-stop" data-target="2018"><div class="tracker-dot"></div><span class="tracker-label">2018</span></div>
         </div>
       </div>
@@ -430,16 +434,25 @@
   syncTrackerHeight();
   window.addEventListener('resize', syncTrackerHeight);
 
-  // Timeline tracker
+  // Timeline tracker — year-based active state
   (function() {
-    var stops = document.querySelectorAll('.tl-stop');
+    var contentStops = document.querySelectorAll('.tl-stop');
     var trackerStops = document.querySelectorAll('.tracker-stop');
+
+    // Years corresponding to each content stop (present-to-past order)
+    var stopYears = [2026, 2023, 2021, 2020, 2018];
+
     function updateTracker() {
-      var active = 0;
-      stops.forEach(function(stop, i) {
-        if (stop.getBoundingClientRect().top <= window.innerHeight * 0.4) active = i;
+      var activeYear = stopYears[0];
+      contentStops.forEach(function(stop, i) {
+        if (stop.getBoundingClientRect().top <= window.innerHeight * 0.4) {
+          activeYear = stopYears[i];
+        }
       });
-      trackerStops.forEach(function(ts, i) { ts.classList.toggle('active', i === active); });
+      trackerStops.forEach(function(ts) {
+        var y = parseInt(ts.dataset.target);
+        ts.classList.toggle('active', y === activeYear);
+      });
     }
     window.addEventListener('scroll', updateTracker, { passive: true });
     updateTracker();
