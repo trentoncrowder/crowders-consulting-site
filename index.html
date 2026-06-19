@@ -430,51 +430,42 @@
   syncTrackerHeight();
   window.addEventListener('resize', syncTrackerHeight);
 
-  // Timeline tracker — float + year-based active
+  // Timeline tracker — fixed viewport float while section in view
   (function() {
     var contentStops = document.querySelectorAll('.tl-stop');
     var trackerStops = document.querySelectorAll('.tracker-stop');
     var tracker = document.getElementById('timeline-tracker');
     var section = document.getElementById('timeline');
-
-    // Years for each content stop in order
     var stopYears = [2026, 2023, 2021, 2020, 2018];
+    var evenYears = [2026, 2024, 2022, 2020, 2018];
 
     function updateTracker() {
       if (!tracker || !section) return;
 
       var sRect = section.getBoundingClientRect();
-      var tHeight = tracker.offsetHeight;
       var vh = window.innerHeight;
+      var tHeight = tracker.offsetHeight;
 
-      // Float tracker: ideal position is vertically centered in viewport
-      // Convert viewport center to position relative to section top
-      var scrollOffset = -sRect.top; // how far we've scrolled into the section
-      var idealTop = scrollOffset + (vh - tHeight) / 2;
+      // Show/hide based on section visibility
+      var inView = sRect.top < vh && sRect.bottom > 0;
+      tracker.style.opacity = inView ? '1' : '0';
+      tracker.style.pointerEvents = inView ? 'auto' : 'none';
 
-      // Clamp: never above 20px from section top, never below section bottom
-      var sHeight = section.offsetHeight;
-      var clampedTop = Math.max(20, Math.min(idealTop, sHeight - tHeight - 20));
+      // Center vertically in viewport, clamped to section bounds
+      var centerTop = (vh - tHeight) / 2;
+      var topClamped = Math.max(sRect.top + 16, Math.min(centerTop, sRect.bottom - tHeight - 16));
+      tracker.style.top = topClamped + 'px';
 
-      tracker.style.top = clampedTop + 'px';
-
-      // Year-based active dot
+      // Active year
       var activeYear = stopYears[0];
       contentStops.forEach(function(stop, i) {
-        if (stop.getBoundingClientRect().top <= vh * 0.4) {
-          activeYear = stopYears[i];
-        }
+        if (stop.getBoundingClientRect().top <= vh * 0.4) activeYear = stopYears[i];
       });
-
-      // Map active year to nearest even year for tracker
-      var evenYears = [2026, 2024, 2022, 2020, 2018];
-      var nearest = evenYears.reduce(function(prev, curr) {
-        return Math.abs(curr - activeYear) < Math.abs(prev - activeYear) ? curr : prev;
+      var nearest = evenYears.reduce(function(a, b) {
+        return Math.abs(b - activeYear) < Math.abs(a - activeYear) ? b : a;
       });
-
       trackerStops.forEach(function(ts) {
-        var y = parseInt(ts.dataset.target);
-        ts.classList.toggle('active', y === nearest);
+        ts.classList.toggle('active', parseInt(ts.dataset.target) === nearest);
       });
     }
 
