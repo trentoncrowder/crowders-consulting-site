@@ -329,14 +329,20 @@
         </div>
       </div>
 
-      <div class="timeline-tracker">
-        <div class="tracker-spine"></div>
-        <div class="tracker-stops">
-          <div class="tracker-stop active" data-target="2026"><div class="tracker-dot"></div><span class="tracker-label">2026</span></div>
-          <div class="tracker-stop" data-target="2023"><div class="tracker-dot"></div><span class="tracker-label">2023</span></div>
-          <div class="tracker-stop" data-target="2021"><div class="tracker-dot"></div><span class="tracker-label">2021</span></div>
-          <div class="tracker-stop" data-target="2020"><div class="tracker-dot"></div><span class="tracker-label">2020</span></div>
-          <div class="tracker-stop" data-target="2018"><div class="tracker-dot"></div><span class="tracker-label">2018</span></div>
+      <div class="timeline-tracker" id="timeline-tracker">
+        <div class="tracker-inner">
+          <div class="tracker-spine"></div>
+          <div class="tracker-stops">
+            <div class="tracker-stop" data-year="2026"><div class="tracker-dot"></div><span class="tracker-label">2026</span></div>
+            <div class="tracker-stop" data-year="2025"><div class="tracker-dot"></div><span class="tracker-label">2025</span></div>
+            <div class="tracker-stop" data-year="2024"><div class="tracker-dot"></div><span class="tracker-label">2024</span></div>
+            <div class="tracker-stop" data-year="2023"><div class="tracker-dot"></div><span class="tracker-label">2023</span></div>
+            <div class="tracker-stop" data-year="2022"><div class="tracker-dot"></div><span class="tracker-label">2022</span></div>
+            <div class="tracker-stop" data-year="2021"><div class="tracker-dot"></div><span class="tracker-label">2021</span></div>
+            <div class="tracker-stop" data-year="2020"><div class="tracker-dot"></div><span class="tracker-label">2020</span></div>
+            <div class="tracker-stop" data-year="2019"><div class="tracker-dot"></div><span class="tracker-label">2019</span></div>
+            <div class="tracker-stop" data-year="2018"><div class="tracker-dot"></div><span class="tracker-label">2018</span></div>
+          </div>
         </div>
       </div>
     </div>
@@ -430,62 +436,56 @@
   syncTrackerHeight();
   window.addEventListener('resize', syncTrackerHeight);
 
-  // Timeline tracker — dynamic dot positioning
+  // Timeline tracker — fixed center, year-based highlighting
   (function() {
-    var stops = document.querySelectorAll('.tl-stop');
+    var section = document.querySelector('.timeline-section');
+    var tracker = document.getElementById('timeline-tracker');
     var trackerStops = document.querySelectorAll('.tracker-stop');
-    var tracker = document.querySelector('.timeline-tracker');
-    var spine = document.querySelector('.tracker-spine');
+    var contentStops = document.querySelectorAll('.tl-stop');
 
-    function positionDots() {
-      if (!stops.length || !tracker) return;
+    // Map data-year on content stops to tracker stops
+    function getYearFromStop(stop) {
+      var tag = stop.querySelector('.tl-tag');
+      if (!tag) return null;
+      var text = tag.textContent.trim();
+      // Extract first 4-digit year
+      var match = text.match(/\d{4}/);
+      return match ? parseInt(match[0]) : null;
+    }
 
-      var section = document.querySelector('.timeline-section');
-      var sectionTop = section.getBoundingClientRect().top + window.scrollY;
-      var sectionHeight = section.offsetHeight;
+    function updateTracker() {
+      if (!section || !tracker) return;
 
-      // Position spine to full section height
-      var trackerTop = tracker.getBoundingClientRect().top + window.scrollY;
+      var sRect = section.getBoundingClientRect();
+      var vh = window.innerHeight;
 
-      stops.forEach(function(stop, i) {
-        var stopTop = stop.getBoundingClientRect().top + window.scrollY;
-        var relY = stopTop - trackerTop;
-        if (trackerStops[i]) {
-          trackerStops[i].style.position = 'absolute';
-          trackerStops[i].style.top = Math.max(0, relY) + 'px';
-          trackerStops[i].style.left = '50%';
-          trackerStops[i].style.transform = 'translateX(-50%)';
-          trackerStops[i].style.margin = '0';
+      // Hide tracker when section is not in view
+      if (sRect.bottom < 0 || sRect.top > vh) {
+        tracker.classList.remove('tracker-visible');
+        return;
+      }
+      tracker.classList.add('tracker-visible');
+
+      // Find active content stop — last one whose top is above 40% viewport
+      var activeYear = getYearFromStop(contentStops[0]);
+      contentStops.forEach(function(stop) {
+        if (stop.getBoundingClientRect().top <= vh * 0.4) {
+          var y = getYearFromStop(stop);
+          if (y) activeYear = y;
         }
       });
 
-      // Set tracker height to match last stop position
-      var lastStop = stops[stops.length - 1];
-      var lastTop = lastStop.getBoundingClientRect().top + window.scrollY;
-      var height = lastTop - trackerTop + 40;
-      tracker.style.height = height + 'px';
-    }
-
-    function updateActive() {
-      var active = 0;
-      stops.forEach(function(stop, i) {
-        if (stop.getBoundingClientRect().top <= window.innerHeight * 0.4) active = i;
+      // Highlight tracker stops — active year and everything after (older)
+      trackerStops.forEach(function(ts) {
+        var y = parseInt(ts.dataset.year);
+        ts.classList.toggle('active', y === activeYear);
+        ts.classList.toggle('past', y < activeYear);
       });
-      trackerStops.forEach(function(ts, i) { ts.classList.toggle('active', i === active); });
     }
 
-    function onScroll() {
-      positionDots();
-      updateActive();
-    }
-
-    window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('resize', positionDots);
-
-    // Run after fonts/layout settle
-    setTimeout(positionDots, 100);
-    setTimeout(positionDots, 500);
-    updateActive();
+    window.addEventListener('scroll', updateTracker, { passive: true });
+    window.addEventListener('resize', updateTracker);
+    updateTracker();
   })();
 </script>
 </body>
