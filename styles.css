@@ -129,7 +129,7 @@ a { text-decoration: none; color: inherit; }
    TIMELINE
    ============================================================ */
 .timeline-section { background: var(--navy-deep); padding: 64px 0; }
-.timeline-outer { max-width: var(--wrap); margin: 0 auto; padding: 0 32px; }
+.timeline-outer { max-width: var(--wrap); margin: 0 auto; padding: 0 32px; display: grid; grid-template-columns: 1fr 120px; gap: 0 48px; align-items: start; }
 .timeline-header { margin-bottom: 48px; }
 .tl-section-title { color: var(--off-white) !important; }
 .tl-stop { padding: 40px 0; border-bottom: 1px solid rgba(138,155,174,0.15); }

@@ -329,20 +329,14 @@
         </div>
       </div>
 
-      <div class="timeline-tracker" id="timeline-tracker">
-        <div class="tracker-inner">
-          <div class="tracker-spine"></div>
-          <div class="tracker-stops">
-            <div class="tracker-stop" data-year="2026"><div class="tracker-dot"></div><span class="tracker-label">2026</span></div>
-            <div class="tracker-stop" data-year="2025"><div class="tracker-dot"></div><span class="tracker-label">2025</span></div>
-            <div class="tracker-stop" data-year="2024"><div class="tracker-dot"></div><span class="tracker-label">2024</span></div>
-            <div class="tracker-stop" data-year="2023"><div class="tracker-dot"></div><span class="tracker-label">2023</span></div>
-            <div class="tracker-stop" data-year="2022"><div class="tracker-dot"></div><span class="tracker-label">2022</span></div>
-            <div class="tracker-stop" data-year="2021"><div class="tracker-dot"></div><span class="tracker-label">2021</span></div>
-            <div class="tracker-stop" data-year="2020"><div class="tracker-dot"></div><span class="tracker-label">2020</span></div>
-            <div class="tracker-stop" data-year="2019"><div class="tracker-dot"></div><span class="tracker-label">2019</span></div>
-            <div class="tracker-stop" data-year="2018"><div class="tracker-dot"></div><span class="tracker-label">2018</span></div>
-          </div>
+      <div class="timeline-tracker">
+        <div class="tracker-spine"></div>
+        <div class="tracker-stops">
+          <div class="tracker-stop active" data-target="2026"><div class="tracker-dot"></div><span class="tracker-label">2026</span></div>
+          <div class="tracker-stop" data-target="2023"><div class="tracker-dot"></div><span class="tracker-label">2023</span></div>
+          <div class="tracker-stop" data-target="2021"><div class="tracker-dot"></div><span class="tracker-label">2021</span></div>
+          <div class="tracker-stop" data-target="2020"><div class="tracker-dot"></div><span class="tracker-label">2020</span></div>
+          <div class="tracker-stop" data-target="2018"><div class="tracker-dot"></div><span class="tracker-label">2018</span></div>
         </div>
       </div>
     </div>
@@ -436,55 +430,18 @@
   syncTrackerHeight();
   window.addEventListener('resize', syncTrackerHeight);
 
-  // Timeline tracker — fixed center, year-based highlighting
+  // Timeline tracker
   (function() {
-    var section = document.querySelector('.timeline-section');
-    var tracker = document.getElementById('timeline-tracker');
+    var stops = document.querySelectorAll('.tl-stop');
     var trackerStops = document.querySelectorAll('.tracker-stop');
-    var contentStops = document.querySelectorAll('.tl-stop');
-
-    // Map data-year on content stops to tracker stops
-    function getYearFromStop(stop) {
-      var tag = stop.querySelector('.tl-tag');
-      if (!tag) return null;
-      var text = tag.textContent.trim();
-      // Extract first 4-digit year
-      var match = text.match(/\d{4}/);
-      return match ? parseInt(match[0]) : null;
-    }
-
     function updateTracker() {
-      if (!section || !tracker) return;
-
-      var sRect = section.getBoundingClientRect();
-      var vh = window.innerHeight;
-
-      // Hide tracker when section is not in view
-      if (sRect.bottom < 0 || sRect.top > vh) {
-        tracker.classList.remove('tracker-visible');
-        return;
-      }
-      tracker.classList.add('tracker-visible');
-
-      // Find active content stop — last one whose top is above 40% viewport
-      var activeYear = getYearFromStop(contentStops[0]);
-      contentStops.forEach(function(stop) {
-        if (stop.getBoundingClientRect().top <= vh * 0.4) {
-          var y = getYearFromStop(stop);
-          if (y) activeYear = y;
-        }
+      var active = 0;
+      stops.forEach(function(stop, i) {
+        if (stop.getBoundingClientRect().top <= window.innerHeight * 0.4) active = i;
       });
-
-      // Highlight tracker stops — active year and everything after (older)
-      trackerStops.forEach(function(ts) {
-        var y = parseInt(ts.dataset.year);
-        ts.classList.toggle('active', y === activeYear);
-        ts.classList.toggle('past', y < activeYear);
-      });
+      trackerStops.forEach(function(ts, i) { ts.classList.toggle('active', i === active); });
     }
-
     window.addEventListener('scroll', updateTracker, { passive: true });
-    window.addEventListener('resize', updateTracker);
     updateTracker();
   })();
 </script>
