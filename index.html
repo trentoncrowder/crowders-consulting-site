@@ -430,19 +430,62 @@
   syncTrackerHeight();
   window.addEventListener('resize', syncTrackerHeight);
 
-  // Timeline tracker
+  // Timeline tracker — dynamic dot positioning
   (function() {
     var stops = document.querySelectorAll('.tl-stop');
     var trackerStops = document.querySelectorAll('.tracker-stop');
-    function updateTracker() {
+    var tracker = document.querySelector('.timeline-tracker');
+    var spine = document.querySelector('.tracker-spine');
+
+    function positionDots() {
+      if (!stops.length || !tracker) return;
+
+      var section = document.querySelector('.timeline-section');
+      var sectionTop = section.getBoundingClientRect().top + window.scrollY;
+      var sectionHeight = section.offsetHeight;
+
+      // Position spine to full section height
+      var trackerTop = tracker.getBoundingClientRect().top + window.scrollY;
+
+      stops.forEach(function(stop, i) {
+        var stopTop = stop.getBoundingClientRect().top + window.scrollY;
+        var relY = stopTop - trackerTop;
+        if (trackerStops[i]) {
+          trackerStops[i].style.position = 'absolute';
+          trackerStops[i].style.top = Math.max(0, relY) + 'px';
+          trackerStops[i].style.left = '50%';
+          trackerStops[i].style.transform = 'translateX(-50%)';
+          trackerStops[i].style.margin = '0';
+        }
+      });
+
+      // Set tracker height to match last stop position
+      var lastStop = stops[stops.length - 1];
+      var lastTop = lastStop.getBoundingClientRect().top + window.scrollY;
+      var height = lastTop - trackerTop + 40;
+      tracker.style.height = height + 'px';
+    }
+
+    function updateActive() {
       var active = 0;
       stops.forEach(function(stop, i) {
         if (stop.getBoundingClientRect().top <= window.innerHeight * 0.4) active = i;
       });
       trackerStops.forEach(function(ts, i) { ts.classList.toggle('active', i === active); });
     }
-    window.addEventListener('scroll', updateTracker, { passive: true });
-    updateTracker();
+
+    function onScroll() {
+      positionDots();
+      updateActive();
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', positionDots);
+
+    // Run after fonts/layout settle
+    setTimeout(positionDots, 100);
+    setTimeout(positionDots, 500);
+    updateActive();
   })();
 </script>
 </body>
